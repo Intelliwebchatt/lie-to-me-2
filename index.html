@@ -1,171 +1,64 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>IntelliChatt.com Lie To Me</title>
-  <style>
-    /* Base styling for futuristic CSI tool look */
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: #000;
-      color: silver;
-      font-family: 'Courier New', Courier, monospace;
-    }
-    .header {
-      text-align: center;
-      padding: 20px;
-    }
-    .header h1 {
-      font-size: 3em;
-      margin: 0;
-      color: red; /* "Lie To Me" in red */
-    }
-    .container {
-      max-width: 800px;
-      margin: 20px auto;
-      padding: 20px;
-      border: 1px solid silver;
-      background-color: #111;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-    }
-    textarea {
-      width: 100%;
-      height: 150px;
-      background-color: #222;
-      color: silver;
-      border: 1px solid silver;
-      padding: 10px;
-      resize: vertical;
-      font-size: 1em;
-    }
-    button {
-      display: block;
-      width: 150px;
-      margin: 20px auto;
-      padding: 10px;
-      font-size: 1em;
-      background-color: #333;
-      color: silver;
-      border: 1px solid silver;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    button:hover {
-      background-color: #444;
-    }
-    #output {
-      margin-top: 20px;
-      padding: 10px;
-      background-color: #222;
-      border: 1px solid silver;
-      min-height: 100px;
-      white-space: pre-wrap;
-    }
-    /* Matrix-style loading effect */
-    #loading {
-      display: none;
-      font-family: monospace;
-      color: red;
-      white-space: nowrap;
-      overflow: hidden;
-      text-align: center;
-      margin-top: 20px;
-      font-size: 1.2em;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IntelliaChatt - Lie to Me</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="header">
-    <h1>IntelliChatt.com Lie To Me</h1>
-  </div>
-  <div class="container">
-    <textarea id="inputText" placeholder="Type or paste the interview transcript here..."></textarea>
-    <button id="analyzeBtn">Analyze</button>
-    <div id="loading">Initializing Matrix Effect...</div>
-    <div id="output"></div>
-  </div>
-  
-  <script>
-    const analyzeBtn = document.getElementById('analyzeBtn');
-    const inputText = document.getElementById('inputText');
-    const outputDiv = document.getElementById('output');
-    const loadingDiv = document.getElementById('loading');
+    <div class="container">
+        <header>
+            <h1 class="matrix-text">INTELLIACHATT<span class="red-text">.com</span></h1>
+            <h2 class="red-text neon">LIE TO ME ANALYSIS SYSTEM</h2>
+        </header>
 
-    // Matrix effect: displays a scrolling binary string
-    function startMatrixEffect() {
-      loadingDiv.style.display = 'block';
-      const binaryString = '0100100101101110011101000110010100100000011000110110100101110011011100100110000101110100';
-      let displayText = '';
-      let index = 0;
-      loadingDiv.textContent = ''; // clear previous content
+        <div class="input-section">
+            <textarea id="input-text" placeholder="PASTE STATEMENT OR CONVERSATION HERE..."></textarea>
+            <button id="analyze-btn" class="neon">ANALYZE</button>
+        </div>
 
-      const interval = setInterval(() => {
-        displayText += binaryString.charAt(index);
-        loadingDiv.textContent = displayText;
-        index++;
-        if (index >= binaryString.length) {
-          index = 0;
-          displayText = '';
-        }
-      }, 50);
+        <div id="loading" class="hidden">
+            <div class="matrix-animation">RUNNING TRUTH PATTERN ANALYSIS...</div>
+        </div>
 
-      // Save interval ID to clear later
-      loadingDiv.dataset.intervalId = interval;
-    }
+        <div id="output-section" class="hidden">
+            <div class="output-header neon">📊 ANALYSIS OUTPUT</div>
+            <div id="analysis-output"></div>
+        </div>
+    </div>
 
-    function stopMatrixEffect() {
-      if (loadingDiv.dataset.intervalId) {
-        clearInterval(loadingDiv.dataset.intervalId);
-        delete loadingDiv.dataset.intervalId;
-      }
-      loadingDiv.style.display = 'none';
-      loadingDiv.textContent = '';
-    }
+    <script>
+        document.getElementById('analyze-btn').addEventListener('click', async () => {
+            const input = document.getElementById('input-text').value;
+            const outputSection = document.getElementById('output-section');
+            const loading = document.getElementById('loading');
 
-    analyzeBtn.addEventListener('click', async () => {
-      const text = inputText.value.trim();
-      if (!text) {
-        alert('Please enter some text.');
-        return;
-      }
-      outputDiv.textContent = '';
-      startMatrixEffect();
+            if (!input) return;
 
-      try {
-        // IMPORTANT:
-        // Directly including an API key in client-side code is not secure.
-        // For production, call your own backend service which stores the API key safely.
-        const response = await fetch('https://api.openai.com/v1/engines/gpt-4-mini/completions', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer YOUR_API_KEY_HERE' // <-- Replace with your API key or use a secure backend proxy
-          },
-          body: JSON.stringify({
-            prompt: text,
-            max_tokens: 150,
-            temperature: 0.7,
-            n: 1,
-            stop: null
-          })
+            outputSection.classList.add('hidden');
+            loading.classList.remove('hidden');
+
+            try {
+                const response = await fetch('api-proxy.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ input })
+                });
+
+                const data = await response.json();
+                document.getElementById('analysis-output').innerHTML = data.response.replace(/\n/g, '<br>');
+                loading.classList.add('hidden');
+                outputSection.classList.remove('hidden');
+            } catch (error) {
+                console.error('Error:', error);
+                loading.classList.add('hidden');
+                alert('Analysis failed. Please try again.');
+            }
         });
-
-        const data = await response.json();
-        stopMatrixEffect();
-
-        if (data && data.choices && data.choices.length > 0) {
-          // Format the output to match the desired structure
-          outputDiv.textContent = "📊 Analysis Output:\n\n" + data.choices[0].text;
-        } else {
-          outputDiv.textContent = "No analysis available.";
-        }
-      } catch (error) {
-        stopMatrixEffect();
-        outputDiv.textContent = "Error: " + error.message;
-      }
-    });
-  </script>
+    </script>
 </body>
 </html>
