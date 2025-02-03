@@ -1,133 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FORENSIC LINGUISTIC ANALYZER</title>
-    <style>
-        /* Base Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Courier New', monospace;
-        }
+<div class="results" id="results">
+    <h3>FORENSIC ANALYSIS REPORT</h3>
+    
+    <div class="deception-percentage">
+        <div class="score-label">DECEPTION CONFIDENCE</div>
+        65% <span class="score-verdict">(LIKELY DECEPTIVE)</span>
+    </div>
 
-        body {
-            background-color: #000;
-            color: #c0c0c0;
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 2rem auto;
-            padding: 20px;
-            border: 1px solid #333;
-            background: #0a0a0a;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Matrix Overlay Fix */
-        .matrix-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.3;
-        }
-
-        /* Visible Elements */
-        textarea, button, .results {
-            display: block;
-            opacity: 1 !important;
-        }
-
-        /* Loading Animation Fix */
-        .loading-screen {
-            display: none;
-            position: relative;
-            z-index: 2;
-            color: #ff1a1a;
-            padding: 20px;
-            text-align: center;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>FORENSIC STATEMENT ANALYZER</h1>
-            <button onclick="initiateAnalysis()">ANALYZE STATEMENT</button>
+    <div class="analysis-markers">
+        <div class="marker-item red">
+            <span class="marker-icon">🔴</span>
+            <div class="marker-details">
+                <h4>LACK OF SPECIFICITY</h4>
+                <p>"Something I didn't want" shows vague referents and object avoidance</p>
+            </div>
         </div>
         
-        <textarea id="inputField" placeholder="Enter statement here..."></textarea>
-        
-        <div class="loading-screen" id="loader">
-            <div class="matrix-overlay" id="matrixOverlay"></div>
-            <p>ANALYZING LINGUISTIC PATTERNS...</p>
+        <div class="marker-item red">
+            <span class="marker-icon">🔴</span>
+            <div class="marker-details">
+                <h4>DISTANCING LANGUAGE</h4>
+                <p>Unspecified agent reference ("he") and passive construction</p>
+            </div>
         </div>
-        
-        <div class="results" id="results">
-            <!-- Analysis content here -->
+
+        <div class="marker-item yellow">
+            <span class="marker-icon">🟡</span>
+            <div class="marker-details">
+                <h4>VERBAL EMPHASIS</h4>
+                <p>Unnecessary credibility boosting ("I promise") detected</p>
+            </div>
         </div>
     </div>
 
-    <script>
-        function createMatrixEffect() {
-            const chars = "01!@#$%^&*ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            const overlay = document.createElement('div');
-            overlay.className = 'matrix-overlay';
-            
-            // Reduced number of columns for performance
-            for(let i = 0; i < 20; i++) { 
-                const column = document.createElement('div');
-                column.style.position = 'absolute';
-                column.style.left = `${(i * 5)}%`;
-                column.style.animation = `matrixFall ${2 + Math.random() * 4}s linear infinite`;
-                
-                // Add characters
-                for(let j = 0; j < 10; j++) {
-                    const char = document.createElement('span');
-                    char.style.color = `rgba(255, 26, 26, ${0.5 + Math.random() * 0.5})`;
-                    char.textContent = chars[Math.floor(Math.random() * chars.length)];
-                    column.appendChild(char);
-                }
-                
-                overlay.appendChild(column);
-            }
-            return overlay;
-        }
+    <div class="interrogation-prompts">
+        <h4>RECOMMENDED VERBAL PROBES:</h4>
+        <ol class="prompt-list">
+            <li>What exactly did he give you?</li>
+            <li>Can you describe the moment he handed it to you?</li>
+            <li>How did you react when you received it?</li>
+            <li>Did you communicate your dissatisfaction?</li>
+        </ol>
+    </div>
 
-        function initiateAnalysis() {
-            const loader = document.getElementById('loader');
-            const results = document.getElementById('results');
-            
-            // Clear previous results
-            results.innerHTML = '';
-            
-            // Show loader
-            loader.style.display = 'block';
-            const matrix = createMatrixEffect();
-            loader.appendChild(matrix);
-
-            // Simulate analysis
-            setTimeout(() => {
-                loader.style.display = 'none';
-                matrix.remove();
-                
-                // Display sample results
-                results.innerHTML = `
-                    <h2>ANALYSIS COMPLETE</h2>
-                    <p>Deception Probability: <span style="color:#ff1a1a">65%</span></p>
-                `;
-            }, 3000);
-        }
-    </script>
-</body>
-</html>
+    <div class="refine-prompt">
+        <p>Statement requires calibration - <button class="refine-btn">ENHANCE STATEMENT DETAIL</button></p>
+    </div>
+</div>
