@@ -3,195 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>intellichatt-Lie To Me | Truth Detection Analyzer</title>
+    <title>FORENSIC LINGUISTIC ANALYZER v2.4.7β | intellichatt-Lie To Me</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', sans-serif;
-        }
+        /* ... (keep previous styles) ... */
 
-        body {
-            background-color: #000;
-            color: #c0c0c0;
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 2rem auto;
-            padding: 20px;
-            border: 1px solid #333;
-            border-radius: 10px;
-            background: #0a0a0a;
-        }
-
-        .header {
-            text-align: center;
-            padding: 20px;
-            border-bottom: 2px solid #c0c0c0;
-            margin-bottom: 20px;
-        }
-
-        h1 {
-            color: #ff0000;
-            font-size: 2.5rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            text-shadow: 0 0 10px rgba(255,0,0,0.3);
-        }
-
-        .tagline {
-            color: #c0c0c0;
-            font-size: 1.1rem;
-            margin-top: 10px;
-        }
-
-        .input-section {
-            margin: 20px 0;
-        }
-
-        textarea {
+        .matrix-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            padding: 15px;
-            background: #111;
-            border: 1px solid #333;
-            color: #c0c0c0;
-            border-radius: 5px;
-            min-height: 150px;
-            margin-bottom: 15px;
-            font-size: 16px;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+            overflow: hidden;
+            opacity: 0.7;
         }
 
-        button {
-            background: #ff0000;
-            color: white;
-            padding: 12px 30px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: 0.3s;
+        .matrix-text {
+            position: absolute;
+            color: rgba(255, 26, 26, 0.7);
+            font-size: 18px;
+            font-family: 'Courier New', monospace;
+            text-shadow: 0 0 5px rgba(255, 26, 26, 0.5);
+            animation: matrixFall 8s linear infinite;
         }
 
-        button:hover {
-            background: #cc0000;
-            transform: scale(1.05);
-        }
-
-        .results {
-            display: none;
-            margin-top: 30px;
-            padding: 20px;
-            background: #111;
-            border-radius: 5px;
-            border: 1px solid #333;
-        }
-
-        .deception-percentage {
-            font-size: 2.5rem;
-            color: #ff0000;
-            text-align: center;
-            margin: 20px 0;
-        }
-
-        .science-breakdown {
-            background: #1a1a1a;
-            padding: 15px;
-            border-left: 3px solid #ff0000;
-            margin: 15px 0;
-        }
-
-        .follow-up-questions {
-            margin-top: 25px;
-            padding: 15px;
-            background: #1a1a1a;
-            border: 1px dashed #333;
-        }
-
-        .instructions {
-            color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 15px;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .stat-item {
-            background: #1a1a1a;
-            padding: 10px;
-            border-radius: 5px;
-            text-align: center;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                margin: 1rem;
-                padding: 10px;
+        @keyframes matrixFall {
+            0% {
+                transform: translateY(-100%);
+                opacity: 0;
             }
+            2% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+
+        .loading-screen {
+            /* ... (keep existing loading styles) ... */
+            position: relative;
+            z-index: 1000;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Lie To Me</h1>
-            <p class="tagline">Cut through the BS - Scientific truth detection for your digital drama</p>
-        </div>
-
-        <div class="input-section">
-            <p class="instructions">🔥 Paste that sus text below. We'll scan it with forensic AI to help you decode the truth</p>
-            <textarea placeholder="Drop that shady message here... 🕵️♂️"></textarea>
-            <button onclick="analyzeText()">ANALYZE FOR TRUTHINESS</button>
-        </div>
-
-        <div class="results" id="results">
-            <div class="deception-percentage">87% DECEPTION DETECTED</div>
-            
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <h3>Linguistic Patterns</h3>
-                    <p>92% match to deceptive speech</p>
-                </div>
-                <div class="stat-item">
-                    <h3>Emotional Variance</h3>
-                    <p>High defensive markers</p>
-                </div>
-            </div>
-
-            <div class="science-breakdown">
-                <h4>🔬 Science Breakdown:</h4>
-                <p>Our AI detected 14 deception markers including:<br>
-                - Excessive qualifiers ("to be honest")<br>
-                - Pronoun avoidance<br>
-                - Inconsistent tense usage</p>
-            </div>
-
-            <div class="follow-up-questions">
-                <h4>🕵️♀️ Interrogation Boosters:</h4>
-                <ol>
-                    <li>"Can you explain that in more detail?"</li>
-                    <li>"What exactly made you feel that way?"</li>
-                    <li>"How would you prove that's true?"</li>
-                </ol>
-                <p class="instructions">Ask these to get 25% more accurate analysis</p>
-            </div>
-        </div>
-    </div>
+    <!-- ... (keep previous body content) ... -->
 
     <script>
-        function analyzeText() {
-            // Placeholder for API integration
-            document.getElementById('results').style.display = 'block';
-            window.scrollTo(0, document.body.scrollHeight);
+        function createMatrixEffect() {
+            const characters = '01!@#$%^&*ABCDEFGHIJKLNMOPQRSTUVWXYZabcdefghijklnmopqrstuvwxyz';
+            const overlay = document.createElement('div');
+            overlay.className = 'matrix-overlay';
+            document.body.appendChild(overlay);
+
+            // Create matrix columns
+            for(let i = 0; i < 50; i++) {
+                const column = document.createElement('div');
+                column.style.position = 'absolute';
+                column.style.left = `${Math.random() * 100}%`;
+                column.style.animationDelay = `${Math.random() * 5}s`;
+                column.style.animationDuration = `${3 + Math.random() * 5}s`;
+                
+                // Create falling characters
+                for(let j = 0; j < 20; j++) {
+                    const char = document.createElement('div');
+                    char.className = 'matrix-text';
+                    char.textContent = characters.charAt(Math.floor(Math.random() * characters.length));
+                    char.style.animationDelay = `${j * 0.2 + Math.random() * 2}s`;
+                    column.appendChild(char);
+                }
+                
+                overlay.appendChild(column);
+            }
+            return overlay;
+        }
+
+        function initiateAnalysis() {
+            const loadingScreen = document.getElementById('loadingScreen');
+            const results = document.getElementById('results');
+            
+            // Show loading screen
+            loadingScreen.style.display = 'block';
+            results.style.display = 'none';
+            
+            // Create matrix effect
+            const matrixOverlay = createMatrixEffect();
+            
+            // Simulate API call
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+                results.style.display = 'block';
+                matrixOverlay.remove();
+                window.scrollTo(0, document.body.scrollHeight);
+            }, 3000);
         }
     </script>
 </body>
