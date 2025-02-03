@@ -1,108 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FORENSIC LINGUISTIC ANALYZER v2.4.7β | intellichatt-Lie To Me</title>
-    <style>
-        /* ... (keep previous styles) ... */
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FORENSIC LINGUISTIC ANALYZER v2.4.7β | intellichatt-Lie To Me</title>
+  <style>
+    /* Matrix overlay styles */
+    .matrix-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 999;
+      overflow: hidden;
+      opacity: 0.7;
+    }
 
-        .matrix-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 999;
-            overflow: hidden;
-            opacity: 0.7;
-        }
+    .matrix-text {
+      position: absolute;
+      color: rgba(255, 26, 26, 0.7);
+      font-size: 18px;
+      font-family: 'Courier New', monospace;
+      text-shadow: 0 0 5px rgba(255, 26, 26, 0.5);
+      animation: matrixFall 8s linear infinite;
+    }
 
-        .matrix-text {
-            position: absolute;
-            color: rgba(255, 26, 26, 0.7);
-            font-size: 18px;
-            font-family: 'Courier New', monospace;
-            text-shadow: 0 0 5px rgba(255, 26, 26, 0.5);
-            animation: matrixFall 8s linear infinite;
-        }
+    @keyframes matrixFall {
+      0% {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      2% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+    }
 
-        @keyframes matrixFall {
-            0% {
-                transform: translateY(-100%);
-                opacity: 0;
-            }
-            2% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(100vh);
-                opacity: 0;
-            }
-        }
+    /* Loading screen styles */
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      z-index: 1000;
+    }
 
-        .loading-screen {
-            /* ... (keep existing loading styles) ... */
-            position: relative;
-            z-index: 1000;
-        }
-    </style>
+    /* Results area styling based on sample output */
+    #results {
+      display: none;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 600px;
+      background-color: #f9f9f9;
+      border: 1px solid #ccc;
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+    }
+
+    #results h2, 
+    #results h3 {
+      margin-top: 0;
+    }
+
+    #results ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+
+    #results li {
+      margin-bottom: 10px;
+    }
+  </style>
 </head>
 <body>
-    <!-- ... (keep previous body content) ... -->
+  <!-- Loading Screen -->
+  <div id="loadingScreen" class="loading-screen">Loading...</div>
 
-    <script>
-        function createMatrixEffect() {
-            const characters = '01!@#$%^&*ABCDEFGHIJKLNMOPQRSTUVWXYZabcdefghijklnmopqrstuvwxyz';
-            const overlay = document.createElement('div');
-            overlay.className = 'matrix-overlay';
-            document.body.appendChild(overlay);
+  <!-- Results Area -->
+  <div id="results">
+    <h2>📊 Analysis Output:</h2>
+    <ul>
+      <li>
+        🔴 <strong>Lack of Specificity</strong> – "Something I didn’t want" is vague and avoids explicitly naming the object.
+      </li>
+      <li>
+        🔴 <strong>Distancing Language</strong> – No direct mention of who "he" is, nor a clear statement on what was received.
+      </li>
+      <li>
+        🟡 <strong>Emphasis on Honesty</strong> – The phrase "I promise" is often used as an attempt to reinforce credibility, which can sometimes indicate deception.
+      </li>
+      <li>
+        🟡 <strong>Passive Voice Usage</strong> – "He gave me" places the action on the other person without stating your role in the situation.
+      </li>
+    </ul>
+    <h3>📢 Suggested Follow-Up Questions:</h3>
+    <ul>
+      <li>What exactly did he give you?</li>
+      <li>Can you describe the moment he handed it to you?</li>
+      <li>How did you react when you received it?</li>
+      <li>Did you communicate to him that it was not what you wanted?</li>
+    </ul>
+    <h2>📊 Deception Score: 65% (Likely Deceptive)</h2>
+  </div>
 
-            // Create matrix columns
-            for(let i = 0; i < 50; i++) {
-                const column = document.createElement('div');
-                column.style.position = 'absolute';
-                column.style.left = `${Math.random() * 100}%`;
-                column.style.animationDelay = `${Math.random() * 5}s`;
-                column.style.animationDuration = `${3 + Math.random() * 5}s`;
-                
-                // Create falling characters
-                for(let j = 0; j < 20; j++) {
-                    const char = document.createElement('div');
-                    char.className = 'matrix-text';
-                    char.textContent = characters.charAt(Math.floor(Math.random() * characters.length));
-                    char.style.animationDelay = `${j * 0.2 + Math.random() * 2}s`;
-                    column.appendChild(char);
-                }
-                
-                overlay.appendChild(column);
-            }
-            return overlay;
+  <!-- Trigger Button to Initiate Analysis -->
+  <button onclick="initiateAnalysis()" style="display: block; margin: 20px auto;">Run Analysis</button>
+
+  <script>
+    function createMatrixEffect() {
+      const characters = '01!@#$%^&*ABCDEFGHIJKLNMOPQRSTUVWXYZabcdefghijklnmopqrstuvwxyz';
+      const overlay = document.createElement('div');
+      overlay.className = 'matrix-overlay';
+      document.body.appendChild(overlay);
+
+      // Create matrix columns
+      for (let i = 0; i < 50; i++) {
+        const column = document.createElement('div');
+        column.style.position = 'absolute';
+        column.style.left = `${Math.random() * 100}%`;
+
+        // Create falling characters for each column
+        for (let j = 0; j < 20; j++) {
+          const char = document.createElement('div');
+          char.className = 'matrix-text';
+          char.textContent = characters.charAt(Math.floor(Math.random() * characters.length));
+          // Position each character vertically (adjust the multiplier for spacing as needed)
+          char.style.top = `${j * 20}px`;
+          // Set random animation delay for each character for variation
+          char.style.animationDelay = `${Math.random() * 5}s`;
+          column.appendChild(char);
         }
+        overlay.appendChild(column);
+      }
+      return overlay;
+    }
 
-        function initiateAnalysis() {
-            const loadingScreen = document.getElementById('loadingScreen');
-            const results = document.getElementById('results');
-            
-            // Show loading screen
-            loadingScreen.style.display = 'block';
-            results.style.display = 'none';
-            
-            // Create matrix effect
-            const matrixOverlay = createMatrixEffect();
-            
-            // Simulate API call
-            setTimeout(() => {
-                loadingScreen.style.display = 'none';
-                results.style.display = 'block';
-                matrixOverlay.remove();
-                window.scrollTo(0, document.body.scrollHeight);
-            }, 3000);
+    function initiateAnalysis() {
+      const loadingScreen = document.getElementById('loadingScreen');
+      const results = document.getElementById('results');
+
+      // Show loading screen and hide results
+      loadingScreen.style.display = 'flex';
+      results.style.display = 'none';
+
+      // Create matrix effect overlay
+      const matrixOverlay = createMatrixEffect();
+
+      // Simulate API call or processing delay
+      setTimeout(() => {
+        // Hide loading screen and show results
+        loadingScreen.style.display = 'none';
+        results.style.display = 'block';
+        // Remove matrix overlay after analysis is complete
+        if (matrixOverlay && matrixOverlay.parentNode) {
+          matrixOverlay.parentNode.removeChild(matrixOverlay);
         }
-    </script>
+        // Smooth scroll to the results area
+        results.scrollIntoView({ behavior: 'smooth' });
+      }, 3000);
+    }
+  </script>
 </body>
 </html>
