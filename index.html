@@ -1,98 +1,133 @@
-:root {
-    --warning-yellow: #FFD700;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FORENSIC LINGUISTIC ANALYZER</title>
+    <style>
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+        }
 
-.analysis-markers {
-    border: 1px solid #333;
-    margin: 20px 0;
-}
+        body {
+            background-color: #000;
+            color: #c0c0c0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
 
-.marker-item {
-    display: flex;
-    align-items: center;
-    padding: 15px;
-    border-bottom: 1px solid #222;
-}
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 20px;
+            border: 1px solid #333;
+            background: #0a0a0a;
+            position: relative;
+            z-index: 1;
+        }
 
-.marker-item:last-child {
-    border-bottom: none;
-}
+        /* Matrix Overlay Fix */
+        .matrix-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.3;
+        }
 
-.marker-item.red {
-    border-left: 4px solid var(--primary-red);
-}
+        /* Visible Elements */
+        textarea, button, .results {
+            display: block;
+            opacity: 1 !important;
+        }
 
-.marker-item.yellow {
-    border-left: 4px solid var(--warning-yellow);
-}
+        /* Loading Animation Fix */
+        .loading-screen {
+            display: none;
+            position: relative;
+            z-index: 2;
+            color: #ff1a1a;
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>FORENSIC STATEMENT ANALYZER</h1>
+            <button onclick="initiateAnalysis()">ANALYZE STATEMENT</button>
+        </div>
+        
+        <textarea id="inputField" placeholder="Enter statement here..."></textarea>
+        
+        <div class="loading-screen" id="loader">
+            <div class="matrix-overlay" id="matrixOverlay"></div>
+            <p>ANALYZING LINGUISTIC PATTERNS...</p>
+        </div>
+        
+        <div class="results" id="results">
+            <!-- Analysis content here -->
+        </div>
+    </div>
 
-.marker-icon {
-    font-size: 1.5rem;
-    margin-right: 15px;
-}
+    <script>
+        function createMatrixEffect() {
+            const chars = "01!@#$%^&*ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            const overlay = document.createElement('div');
+            overlay.className = 'matrix-overlay';
+            
+            // Reduced number of columns for performance
+            for(let i = 0; i < 20; i++) { 
+                const column = document.createElement('div');
+                column.style.position = 'absolute';
+                column.style.left = `${(i * 5)}%`;
+                column.style.animation = `matrixFall ${2 + Math.random() * 4}s linear infinite`;
+                
+                // Add characters
+                for(let j = 0; j < 10; j++) {
+                    const char = document.createElement('span');
+                    char.style.color = `rgba(255, 26, 26, ${0.5 + Math.random() * 0.5})`;
+                    char.textContent = chars[Math.floor(Math.random() * chars.length)];
+                    column.appendChild(char);
+                }
+                
+                overlay.appendChild(column);
+            }
+            return overlay;
+        }
 
-.marker-details h4 {
-    color: #c0c0c0;
-    margin-bottom: 5px;
-}
+        function initiateAnalysis() {
+            const loader = document.getElementById('loader');
+            const results = document.getElementById('results');
+            
+            // Clear previous results
+            results.innerHTML = '';
+            
+            // Show loader
+            loader.style.display = 'block';
+            const matrix = createMatrixEffect();
+            loader.appendChild(matrix);
 
-.marker-details p {
-    color: #666;
-    font-size: 0.9rem;
-}
-
-.deception-percentage {
-    font-size: 2.8rem;
-    text-align: center;
-    margin: 25px 0;
-}
-
-.score-label {
-    font-size: 0.9rem;
-    color: #666;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.score-verdict {
-    font-size: 1.2rem;
-    color: var(--primary-red);
-    display: block;
-}
-
-.interrogation-prompts {
-    background: #111;
-    padding: 20px;
-    margin: 20px 0;
-    border-left: 3px solid var(--primary-red);
-}
-
-.prompt-list {
-    margin: 10px 0 0 20px;
-}
-
-.prompt-list li {
-    margin-bottom: 10px;
-    color: #c0c0c0;
-}
-
-.refine-prompt {
-    text-align: center;
-    padding: 15px;
-    border: 1px dashed #333;
-    margin-top: 25px;
-}
-
-.refine-btn {
-    background: none;
-    border: 1px solid var(--primary-red);
-    color: var(--primary-red);
-    padding: 8px 20px;
-    margin-left: 10px;
-    transition: all 0.3s;
-}
-
-.refine-btn:hover {
-    background: var(--primary-red);
-    color: #000;
-}
+            // Simulate analysis
+            setTimeout(() => {
+                loader.style.display = 'none';
+                matrix.remove();
+                
+                // Display sample results
+                results.innerHTML = `
+                    <h2>ANALYSIS COMPLETE</h2>
+                    <p>Deception Probability: <span style="color:#ff1a1a">65%</span></p>
+                `;
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
